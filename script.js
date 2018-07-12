@@ -6,10 +6,42 @@ var dx = 1;
 var dy = 1;
 var ballRadius = 10;
 var paddleHeight = 10;
-var paddleWidth = 75;
+var paddleWidth = 100;
 var paddleX = (canvas.width - paddleWidth) / 2;
 var rightPressed = false;
 var leftPressed = false; //false because at the beginning the control buttons are not pressed
+
+var brickRowCount = 4;
+var brickColumnCount = 5;
+var brickWidth = 70;
+var brickHeight = 20;
+var brickPadding = 10;
+var brickOffsetTop = 20;
+var brickOffsetLeft = 15;
+
+var bricks = [];
+for(var c=0; c<brickColumnCount; c++) {
+	bricks[c] = [];
+	for(var r=0; r<brickRowCount; r++) {
+		bricks[c][r] = { x: 0, y: 0 };
+	}
+}
+
+function drawBricks() {
+	for (var c=0; c<brickColumnCount; c++) {
+		for (var r=0; r<brickRowCount; r++) {
+			var brickX = (c*(brickWidth + brickPadding)) + brickOffsetLeft;
+			var brickY = (r*(brickHeight + brickPadding)) + brickOffsetTop;
+			bricks[c][r].x = brickX;
+			bricks[c][r].y = brickY;
+			ctx.beginPath();
+			ctx.rect(brickX, brickY, brickWidth, brickHeight);
+			ctx.fillStyle = "#0095DD";
+			ctx.fill();
+			ctx.closePath();
+		}
+	}
+}
 
 function drawBall() {
 	ctx.beginPath();
@@ -55,6 +87,7 @@ function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	drawBall();
 	drawPaddle();
+	drawBricks();
 	x += dx;
 	y += dy;
 
@@ -64,7 +97,7 @@ function draw() {
 
 	else if (y + dy > canvas.height - ballRadius) {
 
-		if(x > paddleX && x < paddleX + paddleWidth && y + dy > canvas.height - ballRadius - paddleHeight) {
+		if(x > paddleX && x < paddleX + paddleWidth && y + dy >paddleHeight) {
 			dy = -dy;
 		}
 
