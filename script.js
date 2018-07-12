@@ -19,6 +19,9 @@ var brickPadding = 10;
 var brickOffsetTop = 20;
 var brickOffsetLeft = 15;
 
+var a = dy++;
+
+
 var bricks = [];
 for(var c=0; c<brickColumnCount; c++) {
 	bricks[c] = [];
@@ -94,13 +97,14 @@ function collisionDetection() {
 			var b = bricks[c][r]; //variable is storing the brick object in every loop.
 			if(b.status == 1) {
 				if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-					dy = -dy;
+					dy = -dy+0.2;
 					b.status = 0;
 				}
 			}
 
 		}
 	}
+	
 }
 
 function draw() {
@@ -142,6 +146,10 @@ function draw() {
 		paddleX -= 5;
 	}
 	
+	if(status == 1) {
+
+	}	
 }
+
 
 setInterval(draw, 10);
