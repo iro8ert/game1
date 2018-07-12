@@ -2,11 +2,24 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var x = canvas.width/2;
 var y = canvas.height/2;
-var dx = 1;
+var f;
+var dx;
+
+function startRandom() {
+	var first = Math.floor(Math.random() * 10);
+	if(first < 5) {
+		console.log(first + "dx = -1");
+		dx = -1;
+	} else if (first > 5) {
+		console.log(first + "dx = 1");
+			dx = 1; //i do not like the random here, it has only two directions
+	}
+} /// do not get why it doesn't work... ok now it works with dx = 1 instead of dx == 1
+;
 var dy = 1;
 var ballRadius = 10;
 var paddleHeight = 10;
-var paddleWidth = 100;
+var paddleWidth = 200;
 var paddleX = (canvas.width - paddleWidth) / 2;
 var rightPressed = false;
 var leftPressed = false; //false because at the beginning the control buttons are not pressed
@@ -19,8 +32,10 @@ var brickPadding = 10;
 var brickOffsetTop = 20;
 var brickOffsetLeft = 15;
 
-var a = dy++;
+var w = 0;
 
+
+startRandom(); //wanted to add a function that would make the ball start in random direction
 
 var bricks = [];
 for(var c=0; c<brickColumnCount; c++) {
@@ -97,14 +112,21 @@ function collisionDetection() {
 			var b = bricks[c][r]; //variable is storing the brick object in every loop.
 			if(b.status == 1) {
 				if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-					dy = -dy+0.2;
+					dy = -dy+0.5; //making the ball accelerate after each hit by 20%
 					b.status = 0;
+					w = w + 1; 
+					console.log(w);
 				}
 			}
 
 		}
 	}
 	
+}
+
+function gameWon() {
+			alert("game won");
+			document.location.reload();
 }
 
 function draw() {
@@ -148,6 +170,11 @@ function draw() {
 	
 	if(status == 1) {
 
+	}
+
+	if (w ==20) {
+		
+		setTimeout(gameWon, 500);
 	}	
 }
 
