@@ -2,12 +2,18 @@
 	display: block;
 	background: #eee;
 	margin: 0 auto;
+	visibility: hidden;
 }
 
 .box {
 	width: 100px;
 	height: 100px;
 	border: 1px solid blue;
+	display: block;
+	margin: 0 auto;
+}
+
+#btn {
 	display: block;
 	margin: 0 auto;
 }

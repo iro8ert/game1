@@ -4,18 +4,6 @@ var x = canvas.width/2;
 var y = canvas.height/2;
 var f;
 var dx;
-
-function startRandom() {
-	var first = Math.floor(Math.random() * 10);
-	if(first < 5) {
-		console.log(first + "dx = -1");
-		dx = -1;
-	} else if (first > 5) {
-		console.log(first + "dx = 1");
-			dx = 1; //i do not like the random here, it has only two directions
-	}
-} /// do not get why it doesn't work... ok now it works with dx = 1 instead of dx == 1
-;
 var dy = 1;
 var ballRadius = 10;
 var paddleHeight = 10;
@@ -32,7 +20,22 @@ var brickPadding = 10;
 var brickOffsetTop = 20;
 var brickOffsetLeft = 15;
 
+function counter() {
+	brickRowCount + 1;
+}
+
 var w = 0;
+
+function startRandom() {
+	var first = Math.floor(Math.random() * 10);
+	if(first < 5) {
+		console.log(first + "dx = -1");
+		dx = -1;
+	} else if (first > 5) {
+		console.log(first + "dx = 1");
+			dx = 1; //i do not like the random here, it has only two directions
+	}
+} /// do not get why it doesn't work... ok now it works with dx = 1 instead of dx == 1
 
 
 startRandom(); //wanted to add a function that would make the ball start in random direction
@@ -53,7 +56,7 @@ function drawBricks() {
 			if(bricks[c][r].status == 1) {
 				var brickX = (c*(brickWidth + brickPadding)) + brickOffsetLeft;
 				var brickY = (r*(brickHeight + brickPadding)) + brickOffsetTop;
-				bricks[c][r].x = brickX;
+				bricks[c][r].x = brickX; //what are these x and y here? not sure where they came from
 				bricks[c][r].y = brickY;
 				ctx.beginPath();
 				ctx.rect(brickX, brickY, brickWidth, brickHeight);
@@ -129,6 +132,8 @@ function gameWon() {
 			document.location.reload();
 }
 
+document.getElementById("btn").addEventListener("click", start);
+
 function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	drawBall();
@@ -178,5 +183,9 @@ function draw() {
 	}	
 }
 
-
-setInterval(draw, 10);
+function start() {
+	document.getElementById("canvas").style.visibility = "visible";
+	document.getElementById("btn").style.visibility = "hidden";
+	setInterval(draw, 10);
+	setInterval(counter, 2000); //should have worked as adding extra row every two seconds - doesn't work.
+}
