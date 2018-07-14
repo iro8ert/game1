@@ -119,6 +119,7 @@ function collisionDetection() {
 					b.status = 0;
 					w = w + 1; 
 					console.log(w);
+					score++;
 				}
 			}
 
@@ -132,7 +133,13 @@ function gameWon() {
 			document.location.reload();
 }
 
-document.getElementById("btn").addEventListener("click", start);
+var score = 0;
+
+function drawScore() {
+	ctx.font = "16px Arial";
+	ctx.fillStyle = "#0095DD";
+	ctx.fillText("Score: " + score, 8, 20);
+}
 
 function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -140,6 +147,7 @@ function draw() {
 	drawPaddle();
 	collisionDetection();
 	drawBricks();
+	drawScore();
 
 	x += dx;
 	y += dy;
@@ -183,9 +191,18 @@ function draw() {
 	}	
 }
 
+document.getElementById("btn").addEventListener("click", start);
+
 function start() {
+	zCount();
 	document.getElementById("canvas").style.visibility = "visible";
 	document.getElementById("btn").style.visibility = "hidden";
 	setInterval(draw, 10);
 	setInterval(counter, 2000); //should have worked as adding extra row every two seconds - doesn't work.
+}
+
+var z = [3, 2, 1]
+
+function zCount(z) {
+	console.log();
 }
