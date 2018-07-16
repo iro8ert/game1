@@ -13,6 +13,19 @@
 	margin: 0 auto;
 }
 
+#div1 {
+	
+}
+
+#title {
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 70px;
+	color: #0095DD;
+	
+}
+
 #btn {
 	display: block;
 	margin: 0 auto;

@@ -17,14 +17,10 @@ var brickColumnCount = 5;
 var brickWidth = 70;
 var brickHeight = 20;
 var brickPadding = 10;
-var brickOffsetTop = 20;
+var brickOffsetTop = 30;
 var brickOffsetLeft = 15;
-
-function counter() {
-	brickRowCount + 1;
-}
-
 var w = 0;
+var lives = 3;
 
 function startRandom() {
 	var first = Math.floor(Math.random() * 10);
@@ -87,9 +83,16 @@ function drawPaddle() {
 
 
 
-
+document. addEventListener("mousemove", mouseMoveHandler, false);
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
+
+function mouseMoveHandler(e) {
+	var relativeX = e.clientX - canvas.offsetLeft;
+	if(relativeX > 0 && relativeX < canvas.width) {
+		paddleX = relativeX - paddleWidth / 2;
+	}
+}
 
 function keyDownHandler(e) {
 	if(e.keyCode == 39) {
@@ -129,7 +132,7 @@ function collisionDetection() {
 }
 
 function gameWon() {
-			alert("game won");
+			alert("Wygrana");
 			document.location.reload();
 }
 
@@ -138,7 +141,13 @@ var score = 0;
 function drawScore() {
 	ctx.font = "16px Arial";
 	ctx.fillStyle = "#0095DD";
-	ctx.fillText("Score: " + score, 8, 20);
+	ctx.fillText("Punkty: " + score, 8, 20);
+}
+
+function drawLives() {
+	ctx.font = "16px Arial";
+	ctx.fillStyle = "#0095DD";
+	ctx.fillText("Życie: " + lives, 340, 20);
 }
 
 function draw() {
@@ -148,6 +157,7 @@ function draw() {
 	collisionDetection();
 	drawBricks();
 	drawScore();
+	drawLives(lives);
 
 	x += dx;
 	y += dy;
@@ -164,8 +174,20 @@ function draw() {
 
 		else {
 
-			alert("game over");
-			document.location.reload();
+			/*alert("game over");
+			document.location.reload();*/
+
+			lives--;
+			if(!lives) {
+				alert("Koniec gry - przegrana");
+				document.location.reload();
+			} else {
+				x = canvas.width/2;
+				y = canvas.height/2;
+				startRandom();
+				dy = 1;
+				paddleX = (canvas.width-paddleWidth)/2;
+			}
 		}
 	}
 
@@ -187,18 +209,32 @@ function draw() {
 
 	if (w ==20) {
 		
-		setTimeout(gameWon, 500);
+		setTimeout(gameWon, 200);
 	}	
 }
 
+function nextLevel() {
+
+}
+
+
+
+//
 document.getElementById("btn").addEventListener("click", start);
+
+function clickEnter(e) { //trying to make a listener on ENTER click...
+	if(e.keyCode==13) {
+		document.addEventListener("keydown", start);		
+	}
+}
 
 function start() {
 	zCount();
+	//clickEnter();
 	document.getElementById("canvas").style.visibility = "visible";
 	document.getElementById("btn").style.visibility = "hidden";
 	setInterval(draw, 10);
-	setInterval(counter, 2000); //should have worked as adding extra row every two seconds - doesn't work.
+	//setInterval(counter, 2000); //should have worked as adding extra row every two seconds - doesn't work.
 }
 
 var z = [3, 2, 1]
